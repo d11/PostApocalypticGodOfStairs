@@ -1,0 +1,9 @@
+// Configuration - these variables will be filled in by the build process
+
+#define VERSION_MAJOR @god_VERSION_MAJOR@
+
+#define VERSION_MINOR @god_VERSION_MINOR@
+
+#define VERSION_STRING "@god_VERSION_MAJOR@.@god_VERSION_MINOR@"
+
+
