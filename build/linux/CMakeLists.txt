@@ -1,16 +1,4 @@
 cmake_minimum_required(VERSION 2.6)
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_FLAGS "-std=c++0x")
-
-########################################################
-# Find all necessary libraries                         #
-########################################################
-
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_MULTITHREADED ON) 
-set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost 1.50 COMPONENTS system filesystem)
-find_package (Threads)
 
 ########################################################
 # Define project                                       #
@@ -23,6 +11,18 @@ set(god_VERSION_MINOR 0)
 
 set(projectRoot "../..")
 
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+set(CMAKE_CXX_FLAGS "-std=c++0x")
+
+########################################################
+# Find all necessary libraries                         #
+########################################################
+
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON) 
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost 1.48 REQUIRED COMPONENTS thread system filesystem)
+find_package (Threads)
 ###############################################
 # Library of code common to client and server #
 ###############################################
