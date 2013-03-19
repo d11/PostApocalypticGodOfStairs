@@ -1,12 +1,32 @@
 #include <iostream>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
+#include <boost/thread.hpp>
 #include <World.h>
 #include <config.h>
 
 using boost::asio::ip::tcp;
 
 using namespace god;
+
+void runClient(tcp::socket & socket)
+{
+   for (;;)
+   {
+      boost::array<char, 128> buf;
+      boost::system::error_code error;
+
+      size_t len = socket.read_some(boost::asio::buffer(buf), error);
+
+      if (error == boost::asio::error::eof)
+         break; // Connection closed cleanly by peer.
+      else if (error)
+         throw boost::system::system_error(error); // Some other error.
+
+      std::cout.write(buf.data(), len);
+      std::cout << std::endl;
+   }
+}
 
 int main(int argc, char *argv[])
 {
@@ -39,20 +59,14 @@ int main(int argc, char *argv[])
       if (error)
          throw boost::system::system_error(error);
 
-      for (;;)
+      boost::thread networkThread(boost::bind(&boost::asio::io_service::run, &io_service));
+      runClient(socket);
+      char line[100];
+      while (std::cin.getline(line, 100))
       {
-         boost::array<char, 128> buf;
-         boost::system::error_code error;
-
-         size_t len = socket.read_some(boost::asio::buffer(buf), error);
-
-         if (error == boost::asio::error::eof)
-            break; // Connection closed cleanly by peer.
-         else if (error)
-            throw boost::system::system_error(error); // Some other error.
-
-         std::cout.write(buf.data(), len);
+         std::cout << line << std::endl;
       }
+      networkThread.join();
    }
    catch (std::exception& e)
    {
