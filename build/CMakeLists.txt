@@ -26,7 +26,7 @@ add_definitions( -DBOOST_ALL_DYN_LINK )
 set(god_VERSION_MAJOR 1)
 set(god_VERSION_MINOR 0)
 
-set(projectRoot "..")
+set(projectRoot "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 ###############################################
 # Library of code common to client and server #
