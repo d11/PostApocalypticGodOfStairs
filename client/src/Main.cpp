@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <boost/array.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
@@ -44,8 +45,11 @@ int main(int argc, char *argv[])
 
       boost::asio::io_service io_service;
 
+      std::stringstream portStr;
+      portStr << port;
+
       tcp::resolver resolver(io_service);
-      tcp::resolver::query query(argv[1], std::to_string(port));
+      tcp::resolver::query query(argv[1], portStr.str());
       tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
       tcp::resolver::iterator end;
 
