@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
-set(CMAKE_CXX_FLAGS "-std=c++0x")
 
 ########################################################
 # Find all necessary libraries                         #
@@ -12,9 +11,12 @@ set(Boost_USE_STATIC_RUNTIME OFF)
 
 project(god)
 
-find_package(Boost)
+find_package(Boost COMPONENTS system thread)
 find_package (Threads)
 
+set(Boost_DIR $ENV{BOOST_ROOT})
+add_definitions( -DBOOST_ALL_NO_LIB )
+add_definitions( -DBOOST_ALL_DYN_LINK )
 ########################################################
 # Define project                                       #
 ########################################################
@@ -59,6 +61,7 @@ include_directories(
       ${commonSrc}
       ${Boost_INCLUDE_DIRS}
    )
+
 add_executable(
       ${serverName}
       ${serverSrcFiles}
