@@ -1,6 +1,6 @@
 # How to build the project on Linux #
 
-Run the following commands from the build/linux directory
+Run the following commands from the build directory
 
     $ cmake .
     $ make
