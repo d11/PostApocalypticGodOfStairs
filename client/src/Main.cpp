@@ -4,6 +4,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <World.h>
+#include <Command.h>
 #include <config.h>
 
 using boost::asio::ip::tcp;
@@ -26,6 +27,9 @@ void runClient(tcp::socket & socket)
 
       std::cout.write(buf.data(), len);
       std::cout << std::endl;
+
+      Command c;
+      c.execute();
    }
 }
 
