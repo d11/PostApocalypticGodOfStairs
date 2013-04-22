@@ -45,11 +45,12 @@ int main(int argc, char *argv[])
 
       boost::asio::io_service io_service;
 
-      std::stringstream portStr;
+      std::stringstream hostStr, portStr;
+      hostStr << argv[1];
       portStr << port;
 
       tcp::resolver resolver(io_service);
-      tcp::resolver::query query(argv[1], portStr.str());
+      tcp::resolver::query query(hostStr.str(), portStr.str());
       tcp::resolver::iterator endpoint_iterator = resolver.resolve(query);
       tcp::resolver::iterator end;
 
@@ -58,7 +59,10 @@ int main(int argc, char *argv[])
       while (error && endpoint_iterator != end)
       {
          socket.close();
-         socket.connect(*endpoint_iterator++, error);
+         std::cout << "Resolving " << hostStr.str() << std::endl;
+         const tcp::socket::endpoint_type & endpoint = *endpoint_iterator++;
+         std::cout << "Trying to connect to " << endpoint << std::endl;
+         socket.connect(endpoint, error);
       }
       if (error)
          throw boost::system::system_error(error);
